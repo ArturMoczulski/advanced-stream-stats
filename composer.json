@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.7",
         "laravel/vapor-cli": "^1.50",
         "laravel/vapor-core": "^2.26",
+        "protoqol/prequel": "^1.23",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
