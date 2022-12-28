@@ -18,9 +18,20 @@ class SubscriptionPlanController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('PurchaseSubscription', [
+        return Inertia::render('SubscriptionPlans', [
             'plans' => SubscriptionPlan::all(),
         ]);
+    }
+
+    /**
+     * Display a plan purchase page
+     *
+     * @param int $id
+     * @return \Inertia\Response
+     */
+    public function purchase($id)
+    {
+        return view('subscription_plans.purchase');
     }
 
     /**

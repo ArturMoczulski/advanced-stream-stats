@@ -35,7 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/purchase_subscription', [SubscriptionPlanController::class, 'index'])->name('profile.index');
+    Route::get('/subscription_plans/{id}/purchase', [SubscriptionPlanController::class, 'purchase'])->name('subscription_plans.purchase');
+    Route::get('/subscription_plans', [SubscriptionPlanController::class, 'index'])->name('subscription_plans.index');
+
+    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.checkout');
 });
 
 require __DIR__.'/auth.php';
