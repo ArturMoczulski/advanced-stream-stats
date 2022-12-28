@@ -18,4 +18,7 @@
 
 ## Quick Start
 
+[Click here](https://cgivr5765bjarthvzdes4le6iq0pdykp.lambda-url.us-east-1.on.aws/) to preview the application
+running on Vapor.
+
 ## Testing

@@ -15,8 +15,11 @@
 		// "onecentlin.laravel-blade"
 	],
 	"remoteUser": "sail",
-	"postCreateCommand": "chown -R 1000:1000 /var/www/html"
+	"postCreateCommand": "chown -R 1000:1000 /var/www/html",
 	// "forwardPorts": [],
 	// "runServices": [],
 	// "shutdownAction": "none",
+	"remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/sail/.config/composer/vendor/bin",
+	}
 }
