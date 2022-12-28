@@ -4,18 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\UserSubscription;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserSubscriptionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+
 
     /**
      * Show the form for creating a new resource.

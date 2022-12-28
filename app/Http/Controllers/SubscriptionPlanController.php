@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSubscriptionPlanRequest;
 use App\Http\Requests\UpdateSubscriptionPlanRequest;
 use App\Models\SubscriptionPlan;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SubscriptionPlanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the available subscription plans
      *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Inertia::render('PurchaseSubscription', [
+            'plans' => SubscriptionPlan::all(),
+        ]);
     }
 
     /**
