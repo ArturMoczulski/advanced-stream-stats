@@ -15,11 +15,17 @@
     <button id="submit-button">Submit payment</button>
   </div>
   <script>
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
     var button = document.querySelector('#submit-button');
 
     braintree.dropin.create({
       // Insert your tokenization key here
-      authorization: '{{ config("app.braintree.tokenization_key")}}',
+      authorization: '{{ config("app.braintree.tokenizationKey")}}',
       container: '#dropin-container'
     }, function (createErr, instance) {
       button.addEventListener('click', function () {
@@ -29,7 +35,10 @@
           $.ajax({
             type: 'POST',
             url: '/checkout',
-            data: {'paymentMethodNonce': payload.nonce}
+            data: {
+              'paymentMethodNonce': payload.nonce,
+              'subscriptionPlanId': {{ $subscriptionPlan->id }}
+            }
           }).done(function(result) {
             // Tear down the Drop-in UI
             instance.teardown(function (teardownErr) {

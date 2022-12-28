@@ -31,7 +31,9 @@ class SubscriptionPlanController extends Controller
      */
     public function purchase($id)
     {
-        return view('subscription_plans.purchase');
+        return view('subscription_plans.purchase', [
+            'subscriptionPlan' => SubscriptionPlan::find($id)
+        ]);
     }
 
     /**
