@@ -18,6 +18,7 @@ return new class extends Migration
             $table->datetime('start');
             $table->datetime('end');
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('subscription_plan_id')->unsigned();
             $table->boolean('active');
             $table->timestamps();
         });
@@ -26,6 +27,9 @@ return new class extends Migration
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
+
+            $table->foreign('subscription_plan_id')
+                ->references('id')->on('subscription_plans');
         });
     }
 
