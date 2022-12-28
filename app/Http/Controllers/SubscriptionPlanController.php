@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateSubscriptionPlanRequest;
 use App\Models\SubscriptionPlan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class SubscriptionPlanController extends Controller
 {
@@ -31,6 +33,13 @@ class SubscriptionPlanController extends Controller
      */
     public function purchase($id)
     {
+        $user = Auth::user();
+
+        if ($user->hasActiveSubscription()) {
+            return Redirect::route('dashboard')
+                ->with('success', 'You already have an active subscription');;
+        }
+
         return view('subscription_plans.purchase', [
             'subscriptionPlan' => SubscriptionPlan::find($id)
         ]);
