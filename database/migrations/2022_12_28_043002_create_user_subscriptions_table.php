@@ -21,6 +21,8 @@ return new class extends Migration
             $table->bigInteger('subscription_plan_id')->unsigned();
             $table->boolean('active');
             $table->timestamps();
+
+            $table->unique(['id', 'active']);
         });
 
         Schema::table('user_subscriptions', function (Blueprint $table) {

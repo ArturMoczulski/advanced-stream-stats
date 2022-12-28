@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\UserSubscription;
 
 class User extends Authenticatable
 {
@@ -41,4 +42,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get user's subscription records
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(UserSubscription::class);
+    }
+    
+    /**
+     * Get user's active subscription
+     */
+    public function activeSubscription()
+    {
+        return $this->subscriptions()->where('active', true)->first();
+    }
 }

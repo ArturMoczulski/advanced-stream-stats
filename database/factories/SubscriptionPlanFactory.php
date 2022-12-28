@@ -19,18 +19,10 @@ class SubscriptionPlanFactory extends Factory
      */
     public function definition()
     {
-    }
-
-    public function active(User $user, SubscriptionPlan $plan)
-    {
-        $start = Carbon::now();
-        $end = Carbon::now()->addMonths($plan->billing_cycle);
-
         return [
-            'start' => $start,
-            'end' => $end,
-            'user_id' => $user->id,
-            'active' => true
+            'name' => 'Annual',
+            'billing_cycle' => 12,
+            'price' => 99.99
         ];
     }
 }
