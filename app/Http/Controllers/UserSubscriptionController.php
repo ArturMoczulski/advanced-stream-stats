@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\UserSubscription;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class UserSubscriptionController extends Controller
 {
-
 
     /**
      * Show the form for creating a new resource.

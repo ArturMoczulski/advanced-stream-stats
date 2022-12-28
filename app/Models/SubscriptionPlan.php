@@ -37,4 +37,9 @@ class SubscriptionPlan extends Model
 
         return $userSub->save();
     }
+
+    public function userSubscriptions()
+    {
+        return $this->hasMany(userSubscription::class);
+    }
 }
