@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\UserSubscription;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -53,9 +54,24 @@ class User extends Authenticatable
     
     /**
      * Get user's active subscription
+     * 
+     * @return App\Models\UserSubscription|null
      */
     public function activeSubscription()
     {
-        return $this->subscriptions()->where('active', true)->first();
+        return $this->subscriptions()
+            ->where('active', true)
+            ->where('end', '>', Carbon::now())
+            ->first();
+    }
+
+    /**
+     * Does this user have an active subscription
+     * 
+     * @return boolean
+     */
+    public function hasActiveSubscription()
+    {
+        return $this->activeSubscription() != null;
     }
 }
