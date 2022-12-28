@@ -21,5 +21,9 @@
 	// "shutdownAction": "none",
 	"remoteEnv": {
     "PATH": "${containerEnv:PATH}:/home/sail/.config/composer/vendor/bin",
+	},
+	"features": {
+		"git": "os-provided",
+		"sshd": "latest"
 	}
 }
