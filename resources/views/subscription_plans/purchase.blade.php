@@ -43,6 +43,8 @@
         instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
           // When the user clicks on the 'Submit payment' button this code will send the
           // encrypted payment information in a variable called a payment method nonce
+          $('#submit-button').remove();
+
           $.ajax({
             type: 'POST',
             url: '/checkout',

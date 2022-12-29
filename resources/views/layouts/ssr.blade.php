@@ -32,7 +32,7 @@
             <main class="c-main">
                 <div class="container-fluid">
                     <div class="fade-in">
-                        <div class="py-12">
+                        <div class="py-4">
                             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                                 <div class="m-4 sm:p-8 bg-white sm:rounded-lg">
                                     <div class="mb-4" v-for="plan in plans">
