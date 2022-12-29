@@ -39,12 +39,26 @@ class AccountController extends Controller
      */
     public function cancel(Request $request)
     {
-        $user = Auth::user();
+        // TODO: add db transactions
 
+        $user = Auth::user();
         $sub = $user->activeSubscription();
 
         $sub->renew = false;
         $result = $sub->save();
+
+        $gateway = new \Braintree\Gateway([
+            'environment' => config('app.braintree.env'),
+            'merchantId' => config('app.braintree.merchantId'),
+            'publicKey' => config('app.braintree.publicKey'),
+            'privateKey' => config('app.braintree.privateKey')
+        ]);
+
+        $result = $gateway->subscription()->cancel($sub->braintree_subscription_id);
+        if (!$result->success) {
+            return Redirect::route('account.billing_plans')
+                ->with('error', "Failed to cancel the subscription. Please contact support" . $sub->end);
+        }
 
         return Redirect::route('dashboard')
             ->with('success', "Sorry to see you go! Your subscription will not be renewed. You can continue using your account until your current plan expires on " . $sub->end);
