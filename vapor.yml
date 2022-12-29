@@ -2,6 +2,7 @@ id: 40284
 name: advanced-stream-stats
 environments:
     production:
+        database: advanced-stream-stats
         memory: 1024
         cli-memory: 512
         runtime: 'php-8.1:al2'

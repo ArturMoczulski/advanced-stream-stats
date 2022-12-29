@@ -12,7 +12,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
-        "laravel/vapor-cli": "^1.50",
+        "laravel/vapor-cli": "*",
         "laravel/vapor-core": "^2.26",
         "protoqol/prequel": "^1.23",
         "tightenco/ziggy": "^1.0"

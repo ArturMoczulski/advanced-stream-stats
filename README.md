@@ -27,9 +27,17 @@ running on Vapor.
 
 ## Deployment
 
-```php
+```sh
+composer global require laravel/vapor-cli --update-with-dependencies
 vapor login
 vapor deploy production
+vapor env:pull production
+```
+
+Update Braintree access credentials in .env.production
+
+```sh
+vapor env:push production
 ```
 
 ### Setting up the Subscription Plans in Braintree
