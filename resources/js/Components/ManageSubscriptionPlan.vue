@@ -18,7 +18,7 @@ const props = defineProps({
       Status: {{ userSubscription.active ? "active" : "disabled" }}
       Will renew: {{ userSubscription.renew ? "yes" : "no" }}
     </div>
-    <Link :href="route('account.cancel')">
+    <Link :href="route('account.cancel')" v-if="userSubscription.renew">
       Cancel
     </Link>
 </template>
