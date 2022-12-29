@@ -1,18 +1,26 @@
 @extends('layouts.ssr')
  
-@section('title', 'Page Title')
- 
-@section('sidebar')
-    @@parent
- 
-    <p>This is appended to the master sidebar.</p>
-@stop
+@section('title', 'Subscription Purchase')
  
 @section('content')
+
+
   <div id="dropin-wrapper">
-    <div id="checkout-message"></div>
+    <div id="checkout-message">
+      @if ($message = Session::get('error'))
+      <div class="overflow-hidden sm:rounded-lg">
+          <div class="max-w-7xl mx-auto pb-4 px-4 sm:px-6 lg:px-8">
+              <div class="sm:p-4 bg-red-300 shadow sm:rounded-lg">
+                  <div class="alert error">
+                    {{ $message }}
+                  </div>
+              </div>
+          </div>
+      </div>
+      @endif
+    </div>
     <div id="dropin-container"></div>
-    <button id="submit-button">Submit payment</button>
+    <button id="submit-button" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit payment</button>
   </div>
   <script>
     $.ajaxSetup({
@@ -55,10 +63,9 @@
             });
 
             if (result.success) {
-              $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+              window.top.location.href = "/dashboard"; 
             } else {
-              console.log(result);
-              $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+              window.location.href = "/subscription_plans/{{ $subscriptionPlan->id }}/purchase"; 
             }
           });
         });

@@ -7,6 +7,7 @@ use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
 {
@@ -23,6 +24,8 @@ class CheckoutController extends Controller
         $user = Auth::user();
 
         if ($user->hasActiveSubscription()) {
+            Session::flash('error', 'This user already have an active subscription');
+
             return response()->json([
                 'success' => false,
                 'message' => 'This user already have an active subscription'
@@ -48,6 +51,7 @@ class CheckoutController extends Controller
         ]);
         if (!$braintreeCustomer->success) {
             DB::rollBack();
+            Session::flash('error', 'Failed to process transaction. You have not been charged. Please try again.');
             return response()->json($braintreeCustomer);
         }
 
@@ -57,6 +61,7 @@ class CheckoutController extends Controller
         ]);
         if (!$braintreeSub->success) {
             DB::rollBack();
+            Session::flash('error', 'Failed to process transaction. You have not been charged. Please try again.');
             return response()->json($braintreeSub);
         }
 
@@ -65,6 +70,7 @@ class CheckoutController extends Controller
             $result = $gateway->subscription()->cancel($braintreeSub->subscription->id);
 
             DB::rollBack();
+            Session::flash('error', 'Failed to process transaction. You have not been charged. Please try again.');
             return response()->json([
                 'success' => false,
                 'cancelResult' => $result
@@ -72,6 +78,9 @@ class CheckoutController extends Controller
         }
 
         DB::commit();
+
+        Session::flash('success', 'Thank you for your purchase! Your subscription is now active.');
+
         return response()->json([
             'success' => true,
             'braintreeSubscriptionId' => $braintreeSub->subscription->id
