@@ -15,9 +15,10 @@ const props = defineProps({
     <div>
       Started on: {{ userSubscription.start }}
       Ending on: {{ userSubscription.end }}
-      Status: {{ userSubscription.acive ? "active" : "disabled" }}
+      Status: {{ userSubscription.active ? "active" : "disabled" }}
+      Will renew: {{ userSubscription.renew ? "yes" : "no" }}
     </div>
-    <Link :href="route('account.cancel', { id: userSubscription.id })">
+    <Link :href="route('account.cancel')">
       Cancel
     </Link>
 </template>

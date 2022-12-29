@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('subscription_plan_id')->unsigned();
             $table->boolean('active');
+            $table->boolean('renew')->default(true);
             $table->timestamps();
 
             $table->unique(['id', 'active']);

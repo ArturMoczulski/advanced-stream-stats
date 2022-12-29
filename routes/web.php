@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/account/billing_plan', [AccountController::class, 'billingPlan'])->name('account.billing_plan');
-    Route::post('/account/cancel', [AccountController::class, 'cancel'])->name('account.cancel');
+    Route::get('/account/cancel', [AccountController::class, 'cancel'])->name('account.cancel');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
