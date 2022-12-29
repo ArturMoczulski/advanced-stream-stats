@@ -2,17 +2,21 @@
 
 ## Features
 
-* Basic user auth functionality
+* ✅ Basic user auth functionality
 
-* Annual and monthly subscrption plans
+* ✅ Annual and monthly subscrption plans
 
-* Metrics dashboard with placeholder data
+* ✅ Metrics dashboard with placeholder data
 
-* Canceling a subscription throught the user account
+* ✅ Canceling a subscription throught the user account
 
-* Subscription payment with rebilling needs to be implemented with Braintree. Needs to support CC and PayPal payments.
+* ✅ Subscription payment with rebilling needs to be implemented with Braintree. Needs to support CC and PayPal payments.
 
-* The UX needs to be built as a SPA
+* ✅ The UX needs to be built as a SPA
+
+## Demo
+
+
 
 ## Quick Start
 
