@@ -9,10 +9,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <div>
+    <div class="mb-4">
       {{ subscriptionPlan.name }} at {{ subscriptionPlan.price }} per {{ subscriptionPlan.billing_cycle }} months
     </div>
-    <div>
+    <div class="mb-4">
       <div>
         Status: {{ userSubscription.active ? "active" : "disabled" }}
       </div>
@@ -27,6 +27,8 @@ const props = defineProps({
       </div>
     </div>
     <Link :href="route('account.cancel')" v-if="userSubscription.renew">
-      Cancel
+      <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+        Cancel
+      </button>
     </Link>
 </template>

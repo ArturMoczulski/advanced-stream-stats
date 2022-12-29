@@ -143,7 +143,7 @@ const showingNavigationDropdown = ref(false);
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
+            <header class="bg-white shadow mb-12" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
@@ -151,9 +151,9 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Content -->
             <main>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" v-if="$page.props.flash.success">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <div class="p-6 text-gray-900">
+                <div class="overflow-hidden sm:rounded-lg" v-if="$page.props.flash.success">
+                    <div class="max-w-7xl mx-auto pb-4 px-4 sm:px-6 lg:px-8">
+                        <div class="sm:p-4 bg-green-300 shadow sm:rounded-lg">
                             <div class="alert success">
                                 {{ $page.props.flash.success }}
                             </div>

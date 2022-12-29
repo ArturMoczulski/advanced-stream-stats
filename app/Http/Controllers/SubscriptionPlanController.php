@@ -20,6 +20,12 @@ class SubscriptionPlanController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user();
+
+        if ($user->hasActiveSubscription()) {
+            return Redirect::route('dashboard');
+        }
+
         return Inertia::render('SubscriptionPlans', [
             'plans' => SubscriptionPlan::all(),
         ]);
