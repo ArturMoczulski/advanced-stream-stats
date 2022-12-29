@@ -7,9 +7,8 @@ use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inert
+use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
-a;
 
 class AccountController extends Controller
 {
@@ -41,8 +40,6 @@ class AccountController extends Controller
      */
     public function cancel(Request $request)
     {
-        // TODO: add db transactions
-
         $user = Auth::user();
         $sub = $user->activeSubscription();
 

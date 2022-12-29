@@ -31,17 +31,6 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
 
-        if (!$plan->activate(Auth::user(), $braintreeSub->subscription->id)) {
-
-            $result = $gateway->subscription()->cancel($braintreeSub->subscription->id);
-
-            DB::rollBack();
-            return response()->json([
-                'success' => false,
-                'cancelResult' => $result
-            ]);
-        }
-
         $plan = SubscriptionPlan::find($request->subscriptionPlanId);
 
         $gateway = new \Braintree\Gateway([
@@ -69,6 +58,17 @@ class CheckoutController extends Controller
         if (!$braintreeSub->success) {
             DB::rollBack();
             return response()->json($braintreeSub);
+        }
+
+        if (!$plan->activate(Auth::user(), $braintreeSub->subscription->id)) {
+
+            $result = $gateway->subscription()->cancel($braintreeSub->subscription->id);
+
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'cancelResult' => $result
+            ]);
         }
 
         DB::commit();
