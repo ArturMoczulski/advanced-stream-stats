@@ -15,10 +15,11 @@ class SubscriptionPlan extends Model
     /**
      * Activates a subscription plan for a user
      * 
-     * @param App\Models\User
+     * @param App\Models\User $user
+     * @param string $braintreeSubId
      * @return boolean
      */
-    public function activate(User $user, $start = null)
+    public function activate(User $user, $braintreeSubId, $start = null)
     {
         if ($user->hasActiveSubscription()) {
             return false;
@@ -34,6 +35,7 @@ class SubscriptionPlan extends Model
         $userSub->user_id = $user->id;
         $userSub->subscription_plan_id = $this->id;
         $userSub->active = true;
+        $userSub->braintree_subscription_id = $braintreeSubId;
 
         return $userSub->save();
     }

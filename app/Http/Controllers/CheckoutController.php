@@ -16,6 +16,9 @@ class CheckoutController extends Controller
      */
     public function checkout(Request $request)
     {
+        // TODO: need to add db transaction support
+
+        // TODO: need to add payment records storage
         $user = Auth::user();
 
         if ($user->hasActiveSubscription()) {
@@ -27,25 +30,44 @@ class CheckoutController extends Controller
 
         $plan = SubscriptionPlan::find($request->subscriptionPlanId);
 
-        $braintreeResponse = $this->braintreeTransaction($user, $plan, $request->paymentMethodNonce);
+        $gateway = new \Braintree\Gateway([
+            'environment' => config('app.braintree.env'),
+            'merchantId' => config('app.braintree.merchantId'),
+            'publicKey' => config('app.braintree.publicKey'),
+            'privateKey' => config('app.braintree.privateKey')
+        ]);
 
-        if (!$braintreeResponse['success']) {
-            return response()->json($braintreeResponse);
+        $braintreeCustomer = $gateway->customer()->create([
+            'firstName' => $user->name,
+            'lastName' => $user->name,
+            'email' => $user->email,
+            'paymentMethodNonce' => $request->paymentMethodNonce
+        ]);
+        if (!$braintreeCustomer->success) {
+            return response()->json($braintreeCustomer);
         }
 
-        if (!$plan->activate(Auth::user())) {
+        $braintreeSub = $gateway->subscription()->create([
+            'paymentMethodToken' => $braintreeCustomer->customer->paymentMethods[0]->token,
+            'planId' => "$plan->id"
+        ]);
+        if (!$braintreeSub->success) {
+            return response()->json($braintreeSub);
+        }
 
-            $voidResult = $this->braintreeVoid($braintreeResponse['transactionId']);
+        if (!$plan->activate(Auth::user(), $braintreeSub->subscription->id)) {
+
+            $result = $gateway->subscription()->cancel($braintreeSub->subscription->id);
 
             return response()->json([
                 'success' => false,
-                'voidResult' => $voidResult
+                'cancelResult' => $result
             ]);
         }
 
         return response()->json([
             'success' => true,
-            'transactionId' => $braintreeResponse['transactionId']
+            'braintreeSubscriptionId' => $braintreeSub->subscription->id
         ]);
     }
 
@@ -57,15 +79,8 @@ class CheckoutController extends Controller
      * @param string $nonce
      * @return array
      */
-    public function braintreeTransaction(User $user, SubscriptionPlan $plan, $nonce)
+    public function braintreeTransaction(User $user, SubscriptionPlan $plan, \Braintree\Gateway $gateway, $nonce)
     {
-        $gateway = new \Braintree\Gateway([
-            'environment' => config('app.braintree.env'),
-            'merchantId' => config('app.braintree.merchantId'),
-            'publicKey' => config('app.braintree.publicKey'),
-            'privateKey' => config('app.braintree.privateKey')
-        ]);
-
         $result = $gateway->transaction()->sale([
             'amount' => $plan->price,
             'paymentMethodNonce' => $nonce,
@@ -101,17 +116,9 @@ class CheckoutController extends Controller
      * @param string $transactionId
      * @return array
      */
-    public function braintreeVoid($transactionId)
+    public function braintreeVoid(\Braintree\Gateway $gateway, $transactionId)
     {
-        $gateway = new \Braintree\Gateway([
-            'environment' => config('app.braintree.env'),
-            'merchantId' => config('app.braintree.merchantId'),
-            'publicKey' => config('app.braintree.publicKey'),
-            'privateKey' => config('app.braintree.privateKey')
-        ]);
-
         $result = $gateway->transaction()->void($transactionId);
-        
         return $result;
     }
 }

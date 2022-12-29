@@ -40,8 +40,14 @@ class SubscriptionPlanController extends Controller
                 ->with('success', 'You already have an active subscription');;
         }
 
+        $plan = SubscriptionPlan::find($id);
+
+        if (!$plan) {
+            return Redirect::route('subscription_plans.index');
+        }
+
         return view('subscription_plans.purchase', [
-            'subscriptionPlan' => SubscriptionPlan::find($id)
+            'subscriptionPlan' => $plan
         ]);
     }
 

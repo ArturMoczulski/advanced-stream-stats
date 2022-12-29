@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('subscription_plan_id')->unsigned();
             $table->boolean('active');
             $table->boolean('renew')->default(true);
+            $table->string('braintree_subscription_id');
             $table->timestamps();
 
             $table->unique(['id', 'active']);
