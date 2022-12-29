@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +24,16 @@ use Illuminate\Support\Facades\Redirect;
 
 Route::get('/', function () {
 
-    if (Auth::user()) {
-        return Redirect::route('dashboard');
+    $user = Auth::user();
+
+    if ($user) {
+
+        if ($user->hasActiveSubscription()) {
+            return Redirect::route('dashboard');
+        } else {
+            return Redirect::route('subscription_plans.index');
+        }
+
     } else {
         return Redirect::route('register');
     }
