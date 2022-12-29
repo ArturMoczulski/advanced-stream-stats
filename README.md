@@ -23,7 +23,7 @@ running on Vapor.
 
 * Braintree account
 
-* PayPay account connected to Braintree
+* PayPal account connected to Braintree
 
 ## Deployment
 
