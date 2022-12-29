@@ -28,11 +28,7 @@ Route::get('/', function () {
 
     if ($user) {
 
-        if ($user->hasActiveSubscription()) {
-            return Redirect::route('dashboard');
-        } else {
-            return Redirect::route('subscription_plans.index');
-        }
+        return Redirect::route('dashboard');
 
     } else {
         return Redirect::route('register');
@@ -41,7 +37,15 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+
+    $user = Auth::user();
+
+    if ($user->hasActiveSubscription()) {
+        return Inertia::render('Dashboard');
+    } else {
+        return Redirect::route('subscription_plans.index');
+    }
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
