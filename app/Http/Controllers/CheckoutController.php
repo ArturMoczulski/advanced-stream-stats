@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -28,6 +29,19 @@ class CheckoutController extends Controller
             ]);
         }
 
+        DB::beginTransaction();
+
+        if (!$plan->activate(Auth::user(), $braintreeSub->subscription->id)) {
+
+            $result = $gateway->subscription()->cancel($braintreeSub->subscription->id);
+
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'cancelResult' => $result
+            ]);
+        }
+
         $plan = SubscriptionPlan::find($request->subscriptionPlanId);
 
         $gateway = new \Braintree\Gateway([
@@ -44,6 +58,7 @@ class CheckoutController extends Controller
             'paymentMethodNonce' => $request->paymentMethodNonce
         ]);
         if (!$braintreeCustomer->success) {
+            DB::rollBack();
             return response()->json($braintreeCustomer);
         }
 
@@ -52,19 +67,11 @@ class CheckoutController extends Controller
             'planId' => "$plan->id"
         ]);
         if (!$braintreeSub->success) {
+            DB::rollBack();
             return response()->json($braintreeSub);
         }
 
-        if (!$plan->activate(Auth::user(), $braintreeSub->subscription->id)) {
-
-            $result = $gateway->subscription()->cancel($braintreeSub->subscription->id);
-
-            return response()->json([
-                'success' => false,
-                'cancelResult' => $result
-            ]);
-        }
-
+        DB::commit();
         return response()->json([
             'success' => true,
             'braintreeSubscriptionId' => $braintreeSub->subscription->id

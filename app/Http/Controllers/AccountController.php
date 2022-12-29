@@ -7,7 +7,9 @@ use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
+use Inertia\Inert
+use Illuminate\Support\Facades\DB;
+a;
 
 class AccountController extends Controller
 {
@@ -44,6 +46,8 @@ class AccountController extends Controller
         $user = Auth::user();
         $sub = $user->activeSubscription();
 
+        DB::beginTransaction();
+
         $sub->renew = false;
         $result = $sub->save();
 
@@ -56,10 +60,12 @@ class AccountController extends Controller
 
         $result = $gateway->subscription()->cancel($sub->braintree_subscription_id);
         if (!$result->success) {
+            DB::rollBack();
             return Redirect::route('account.billing_plans')
                 ->with('error', "Failed to cancel the subscription. Please contact support" . $sub->end);
         }
 
+        DB::commit();
         return Redirect::route('dashboard')
             ->with('success', "Sorry to see you go! Your subscription will not be renewed. You can continue using your account until your current plan expires on " . $sub->end);
     }
