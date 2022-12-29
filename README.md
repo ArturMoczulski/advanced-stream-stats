@@ -16,7 +16,7 @@
 
 ## About
 
-This project is using Laravel 9 with Vue.js through Inertia. The production application is deployed to Laravel Vapor. Majority of this tech stack was new to me at the time of starting the project. It has been a while since I worked with Laravel 8, I never worked with Vue although I did work with React a lot. Inertia was compeltely new to me. This project took me estimated 10 hours with development environment setup and spending time on educating myself on the details of the asset pipeline, Vapor deployment tools and how Vue and Inertia work together. The time I spent on building the actual backend came up to about 3 hours.
+This project is using Laravel 9 with Vue.js through Inertia. The production application is deployed to Laravel Vapor. Majority of this tech stack was new to me at the time of starting the project. It has been a while since I worked with Laravel 8, I never worked with Vue although I did work with React a lot. Inertia was completely new to me. This project took an estimated 10 hours with development environment setup and spending time on educating myself on the details of the asset pipeline, Vapor deployment tools and how Vue and Inertia work together. The time I spent on building the actual backend came up to about 3 hours
 
 ## Demo
 
@@ -53,6 +53,8 @@ vapor env:push production
 After you deploy the application, make sure that there are Subscription Plans set up in your Braintree account with subscription ids matching the Subscription Plan ids from the application.
 
 ## To Do
+
+* Improve how error-proof the payment processing is as mentioned in the end of the demo video.
 
 * Payment model to record transaction history in the app. Payments should be associated with the matching Braintree transactions.
 
