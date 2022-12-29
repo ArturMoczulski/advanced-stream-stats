@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'hasActiveSubscription' => $request->user()?->hasActiveSubscription(),
+                'subscriptionPlan' => $request->user()?->activeSubscription()?->subscriptionPlan,
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [

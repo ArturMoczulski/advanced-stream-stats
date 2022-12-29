@@ -40,7 +40,7 @@ Route::get('/dashboard', function () {
 
     $user = Auth::user();
 
-    if ($user->hasActiveSubscription()) {
+    if ($user?->hasActiveSubscription()) {
         return Inertia::render('Dashboard');
     } else {
         return Redirect::route('subscription_plans.index');
