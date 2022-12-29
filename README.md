@@ -26,6 +26,8 @@ vapor login
 vapor deploy production
 ```
 
-### Setiing up the Subscription Plans in Braintree
+### Setting up the Subscription Plans in Braintree
+
+After you deploy the application, make sure that there are Subscription Plans set up in your Braintree account with subscription ids matching the Subscription Plan ids from the application.
 
 ## Testing

@@ -26,7 +26,10 @@
     braintree.dropin.create({
       // Insert your tokenization key here
       authorization: '{{ config("app.braintree.tokenizationKey")}}',
-      container: '#dropin-container'
+      container: '#dropin-container',
+      paypal: {
+        flow: 'vault'
+      }
     }, function (createErr, instance) {
       button.addEventListener('click', function () {
         instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
