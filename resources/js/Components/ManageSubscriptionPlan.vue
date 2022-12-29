@@ -13,10 +13,18 @@ const props = defineProps({
       {{ subscriptionPlan.name }} at {{ subscriptionPlan.price }} per {{ subscriptionPlan.billing_cycle }} months
     </div>
     <div>
-      Started on: {{ userSubscription.start }}
-      Ending on: {{ userSubscription.end }}
-      Status: {{ userSubscription.active ? "active" : "disabled" }}
-      Will renew: {{ userSubscription.renew ? "yes" : "no" }}
+      <div>
+        Status: {{ userSubscription.active ? "active" : "disabled" }}
+      </div>
+      <div>
+        Started on: {{ userSubscription.start }}
+      </div>
+      <div v-if="userSubscription.renew">
+        Renewing on: {{ userSubscription.end }}
+      </div>
+      <div v-if="!userSubscription.renew">
+        Ending on: {{ userSubscription.end }}
+      </div>
     </div>
     <Link :href="route('account.cancel')" v-if="userSubscription.renew">
       Cancel
