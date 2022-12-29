@@ -44,4 +44,12 @@ vapor env:push production
 
 After you deploy the application, make sure that there are Subscription Plans set up in your Braintree account with subscription ids matching the Subscription Plan ids from the application.
 
-## Testing
+## To Do
+
+* Payment model to record transaction history in the app. Payments should be associated with the matching Braintree transactions.
+
+* Store Braintree customer id in the User model.
+
+* Braintree callbacks to sync subscription status when it renews or fails to renew.
+
+* E2E test suite.
