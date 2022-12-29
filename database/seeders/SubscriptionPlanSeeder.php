@@ -29,7 +29,7 @@ class SubscriptionPlanSeeder extends Seeder
 
         DB::table('subscription_plans')->insert([
             'name' => 'Will Trigger Payment Gateway Error Plan',
-            'billing_cycle' => 9999,
+            'billing_cycle' => 99,
             'price' => 2050.00,
         ]);
 
